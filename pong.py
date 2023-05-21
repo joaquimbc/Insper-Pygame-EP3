@@ -47,7 +47,10 @@ class Menu:
             self.clock.tick(FPS)
     
     def menu_principal(self):
-        pass
+        textos = ['Pong!!!', 'Aperte G para jogar', 'Aperte C para o placar', 'Aperte M para multiplayer']
+        for i, txt in enumerate(textos):
+            text = self.font.render(txt, True, WHITE)
+            self.win.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2 + i * TAMANHO_FONTE))
 
 def main():
     print("Ola!")
