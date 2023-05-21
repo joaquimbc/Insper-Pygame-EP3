@@ -33,7 +33,27 @@ class Game:
         pass
 
     def movimenta_bola(self):
-        pass
+        # Movimento da bola
+        self.bola_x += self.bola_dx
+        self.bola_y += self.bola_dy
+
+        # Colisão das raquetes com a bola
+        if (self.bola_dx < 0 and self.raquete1_y < self.bola_y < self.raquete1_y + ALTURA_RAQUETE and RAIO_BOLA < self.bola_x < RAIO_BOLA + LARGURA_RAQUETE):
+            self.bola_dx *= -1
+        elif (self.bola_dx > 0 and self.raquete2_y < self.bola_y < self.raquete2_y + ALTURA_RAQUETE and LARGURA - RAIO_BOLA - LARGURA_RAQUETE < self.bola_x < LARGURA - RAIO_BOLA):
+            self.bola_dx *= -1
+
+        # Colisão da bola com a tela
+        if self.bola_y - RAIO_BOLA < 0 or self.bola_y + RAIO_BOLA > ALTURA:
+            self.bola_dy *= -1
+
+        # Pontuação
+        if self.bola_x - RAIO_BOLA < 0:
+            self.player2.score += 1
+            self.reseta_bola(2, self.player1.score, self.player2.score)
+        if self.bola_x + RAIO_BOLA > LARGURA:
+            self.player1.score += 1
+            self.reseta_bola(1, self.player1.score, self.player2.score)
 
     def renderiza_jogo(self):
         pass
