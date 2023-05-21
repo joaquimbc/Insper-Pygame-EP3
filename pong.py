@@ -53,7 +53,12 @@ class Menu:
             self.win.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2 + i * TAMANHO_FONTE))
 
 def main():
-    print("Ola!")
+    pygame.init()
+    win = pygame.display.set_mode((LARGURA, ALTURA))
+    clock = pygame.time.Clock()
+    font = pygame.font.Font(None, TAMANHO_FONTE)
+    menu = Menu(win, clock, font)
+    menu.renderiza_tela()
 
 if __name__ == "__main__":
     main()
