@@ -19,7 +19,12 @@ class Game:
 
 class Player:
     def __init__(self, name, tipo):
-        pass
+        self.name = name
+        self.score = 0
+
+    def gravar_pontos(self):
+        with open('scores.txt', 'a') as f:
+            f.write(f'{self.name}: {self.score}\n')
 
 class Menu:
     def __init__(self, win, clock, font):
