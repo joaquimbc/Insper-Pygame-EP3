@@ -14,7 +14,34 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
 class Game:
-    def __init__(self, win, clock, font, tipo):
+    def __init__(self, win, clock, font):
+        self.win = win
+        self.clock = clock
+        self.font = font
+        self.bola_dx, self.bola_dy = 3, 3
+        self.raquete_velocidade = 4
+        self.score1, self.score2 = 0, 0
+        self.bola_x, self.bola_y = LARGURA // 2, ALTURA // 2
+        self.raquete1_y, self.raquete2_y = ALTURA // 2, ALTURA // 2
+        self.player1 = Player("Player 1", 'vertical')
+        self.player2 = Player("Player 2", 'vertical')
+
+    def play(self):
+        pass
+
+    def movimenta_raquete(self):
+        pass
+
+    def movimenta_bola(self):
+        pass
+
+    def renderiza_jogo(self):
+        pass
+
+    def reseta_bola(self, player, score1, score2):
+        pass
+
+    def tela_de_vitoria(self, player):
         pass
 
 class Player:
