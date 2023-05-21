@@ -59,7 +59,12 @@ class Game:
         pass
 
     def reseta_bola(self, player, score1, score2):
-        pass
+        if player == 1 and score1 % 5 == 0:
+            self.tela_de_vitoria(self.player1)
+        elif player == 2 and score2 % 5 == 0:
+            self.tela_de_vitoria(self.player2)
+        
+        self.bola_x, self.bola_y = LARGURA // 2, ALTURA // 2
 
     def tela_de_vitoria(self, player):
         pass
