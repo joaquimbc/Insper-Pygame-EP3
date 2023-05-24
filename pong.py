@@ -66,7 +66,13 @@ class Game:
             self.reseta_bola(1, self.player1.score, self.player2.score)
 
     def renderiza_jogo(self):
-        pass
+        self.win.fill((0, 0, 0))
+        pygame.draw.rect(self.win, WHITE, pygame.Rect(0, self.raquete1_y, LARGURA_RAQUETE, ALTURA_RAQUETE))
+        pygame.draw.rect(self.win, WHITE, pygame.Rect(LARGURA - LARGURA_RAQUETE, self.raquete2_y, LARGURA_RAQUETE, ALTURA_RAQUETE))
+        pygame.draw.circle(self.win, WHITE, (self.bola_x, self.bola_y), RAIO_BOLA)
+        score_text = self.font.render(f'{self.player1.score} - {self.player2.score}', True, WHITE)
+        self.win.blit(score_text, (LARGURA // 2 - score_text.get_width() // 2, 30))
+        pygame.display.flip()
 
     def reseta_bola(self, player, score1, score2):
         if player == 1 and score1 % 5 == 0:
