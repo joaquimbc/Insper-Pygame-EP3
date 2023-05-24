@@ -30,7 +30,17 @@ class Game:
         pass
 
     def movimenta_raquete(self):
-        pass
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_w] and self.raquete1_y - self.raquete_velocidade > 0:
+            self.raquete1_y -= self.raquete_velocidade
+        if keys[pygame.K_s] and self.raquete1_y + self.raquete_velocidade < ALTURA - ALTURA_RAQUETE:
+            self.raquete1_y += self.raquete_velocidade
+
+        if keys[pygame.K_UP] and self.raquete2_y - self.raquete_velocidade > 0:
+            self.raquete2_y -= self.raquete_velocidade
+        if keys[pygame.K_DOWN] and self.raquete2_y + self.raquete_velocidade < ALTURA - ALTURA_RAQUETE:
+            self.raquete2_y += self.raquete_velocidade
 
     def movimenta_bola(self):
         # Movimento da bola
