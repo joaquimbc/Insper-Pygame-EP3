@@ -83,7 +83,29 @@ class Game:
         self.bola_x, self.bola_y = LARGURA // 2, ALTURA // 2
 
     def tela_de_vitoria(self, player):
-        pass
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_g:
+                        self.bola_dx *= 1.1
+                        self.bola_dy *= 1.1
+                        self.raquete_velocidade *= 1.2
+                        return  # Continua o jogo
+                    elif event.key == pygame.K_c: # Grava a pontuação e sai
+                        player.gravar_pontos()
+                        pygame.quit()
+                        sys.exit()
+
+            self.win.fill((0, 0, 0))
+            text = self.font.render(f'Parabéns {player.name}!', True, GREEN)
+            self.win.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2))
+            text = self.font.render('Aperte G para continuar ou C para sair', True, WHITE)
+            self.win.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2 + TAMANHO_FONTE))
+            pygame.display.flip()
+            self.clock.tick(FPS)
 
 class Player:
     def __init__(self, name, tipo):
