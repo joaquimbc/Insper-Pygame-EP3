@@ -139,7 +139,8 @@ class Menu:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_g: # Modo principal do jogo
-                        pass
+                        game = Game(self.win, self.clock, self.font)
+                        game.play()
                     elif event.key == pygame.K_c: # Placar (Não implementado)
                         pass 
                     elif event.key == pygame.K_m: # Multiplayer (Não implementado)
