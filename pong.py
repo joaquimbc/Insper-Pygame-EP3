@@ -27,7 +27,16 @@ class Game:
         self.player2 = Player("Player 2", 'vertical')
 
     def play(self):
-        pass
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+            self.movimenta_raquete()
+            self.movimenta_bola()
+            self.renderiza_jogo()
+            self.clock.tick(FPS)
 
     def movimenta_raquete(self):
         keys = pygame.key.get_pressed()
