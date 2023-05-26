@@ -69,15 +69,27 @@ class Game:
                 self.raquete2_y += self.raquete_velocidade
 
         if self.tipo == 'quatro':
-            if keys[pygame.K_a] and self.raquete3_x - self.raquete_velocidade > 0:
-                self.raquete3_x -= self.raquete_velocidade
-            if keys[pygame.K_d] and self.raquete3_x + self.raquete_velocidade < LARGURA - self.player3.altura_raquete:
-                self.raquete3_x += self.raquete_velocidade
-
-            if keys[pygame.K_j] and self.raquete4_x - self.raquete_velocidade > 0:
-                self.raquete4_x -= self.raquete_velocidade
-            if keys[pygame.K_l] and self.raquete4_x + self.raquete_velocidade < LARGURA - self.player4.altura_raquete:
-                self.raquete4_x += self.raquete_velocidade
+            if self.player3.poder == 'inverte':
+                if keys[pygame.K_c] and self.raquete3_x - self.raquete_velocidade > 0:
+                    self.raquete3_x -= self.raquete_velocidade
+                if keys[pygame.K_x] and self.raquete3_x + self.raquete_velocidade < LARGURA - self.player3.altura_raquete:
+                    self.raquete3_x += self.raquete_velocidade
+            else:
+                if keys[pygame.K_x] and self.raquete3_x - self.raquete_velocidade > 0:
+                    self.raquete3_x -= self.raquete_velocidade
+                if keys[pygame.K_c] and self.raquete3_x + self.raquete_velocidade < LARGURA - self.player3.altura_raquete:
+                    self.raquete3_x += self.raquete_velocidade
+            
+            if self.player4.poder == 'inverte':
+                if keys[pygame.K_m] and self.raquete4_x - self.raquete_velocidade > 0:
+                    self.raquete4_x -= self.raquete_velocidade
+                if keys[pygame.K_n] and self.raquete4_x + self.raquete_velocidade < LARGURA - self.player4.altura_raquete:
+                    self.raquete4_x += self.raquete_velocidade
+            else:
+                if keys[pygame.K_n] and self.raquete4_x - self.raquete_velocidade > 0:
+                    self.raquete4_x -= self.raquete_velocidade
+                if keys[pygame.K_m] and self.raquete4_x + self.raquete_velocidade < LARGURA - self.player4.altura_raquete:
+                    self.raquete4_x += self.raquete_velocidade
 
     def movimenta_bola(self):
         # Movimento da bola
