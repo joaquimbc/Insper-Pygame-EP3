@@ -41,15 +41,27 @@ class Game:
     def movimenta_raquete(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_w] and self.raquete1_y - self.raquete_velocidade > 0:
-            self.raquete1_y -= self.raquete_velocidade
-        if keys[pygame.K_s] and self.raquete1_y + self.raquete_velocidade < ALTURA - ALTURA_RAQUETE:
-            self.raquete1_y += self.raquete_velocidade
+        if self.player1.poder == 'inverte':
+            if keys[pygame.K_s] and self.raquete1_y - self.raquete_velocidade > 0:
+                self.raquete1_y -= self.raquete_velocidade
+            if keys[pygame.K_w] and self.raquete1_y + self.raquete_velocidade < ALTURA - self.player1.altura_raquete:
+                self.raquete1_y += self.raquete_velocidade
+        else:
+            if keys[pygame.K_w] and self.raquete1_y - self.raquete_velocidade > 0:
+                self.raquete1_y -= self.raquete_velocidade
+            if keys[pygame.K_s] and self.raquete1_y + self.raquete_velocidade < ALTURA - self.player1.altura_raquete:
+                self.raquete1_y += self.raquete_velocidade
 
-        if keys[pygame.K_UP] and self.raquete2_y - self.raquete_velocidade > 0:
-            self.raquete2_y -= self.raquete_velocidade
-        if keys[pygame.K_DOWN] and self.raquete2_y + self.raquete_velocidade < ALTURA - ALTURA_RAQUETE:
-            self.raquete2_y += self.raquete_velocidade
+        if self.player2.poder == 'inverte':
+            if keys[pygame.K_DOWN] and self.raquete2_y - self.raquete_velocidade > 0:
+                self.raquete2_y -= self.raquete_velocidade
+            if keys[pygame.K_UP] and self.raquete2_y + self.raquete_velocidade < ALTURA - self.player2.altura_raquete:
+                self.raquete2_y += self.raquete_velocidade
+        else:
+            if keys[pygame.K_UP] and self.raquete2_y - self.raquete_velocidade > 0:
+                self.raquete2_y -= self.raquete_velocidade
+            if keys[pygame.K_DOWN] and self.raquete2_y + self.raquete_velocidade < ALTURA - self.player2.altura_raquete:
+                self.raquete2_y += self.raquete_velocidade
 
     def movimenta_bola(self):
         # Movimento da bola
@@ -135,7 +147,7 @@ class Player:
     def sorteia_poder(self):
         if self.poder == 'nenhum':
             if True:
-                tipo = 2
+                tipo = 1
                 if tipo == 1:
                     self.poder = 'inverte'
                     self.cor_raquete = GREEN
