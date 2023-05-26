@@ -111,6 +111,13 @@ class Game:
         if self.bola_x + RAIO_BOLA > LARGURA:
             self.player1.score += 1
             self.reseta_bola(1, self.player1.score, self.player2.score)
+        if self.tipo == 'quatro':	
+            if self.bola_y - RAIO_BOLA < 0:	
+                self.player4.score += 1	
+                self.reseta_bola(4, self.player3.score, self.player4.score)	
+            if self.bola_y + RAIO_BOLA > ALTURA:	
+                self.player3.score += 1	
+                self.reseta_bola(3, self.player3.score, self.player4.score)
 
     def renderiza_jogo(self):
         self.win.fill((0, 0, 0))
