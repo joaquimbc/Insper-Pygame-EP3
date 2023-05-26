@@ -58,8 +58,10 @@ class Game:
 
         # Colisão das raquetes com a bola
         if (self.bola_dx < 0 and self.raquete1_y < self.bola_y < self.raquete1_y + ALTURA_RAQUETE and RAIO_BOLA < self.bola_x < RAIO_BOLA + LARGURA_RAQUETE):
+            self.player1.sorteia_poder()
             self.bola_dx *= -1
         elif (self.bola_dx > 0 and self.raquete2_y < self.bola_y < self.raquete2_y + ALTURA_RAQUETE and LARGURA - RAIO_BOLA - LARGURA_RAQUETE < self.bola_x < LARGURA - RAIO_BOLA):
+            self.player1.sorteia_poder()
             self.bola_dx *= -1
 
         # Colisão da bola com a tela
@@ -120,10 +122,38 @@ class Player:
     def __init__(self, name, tipo):
         self.name = name
         self.score = 0
+        self.poder = 'nenhum'
+        self.cor_raquete = WHITE
+        self.altura_raquete = 80
+        self.largura_raquete = 15
+        self.ultimo = 0
 
     def gravar_pontos(self):
         with open('scores.txt', 'a') as f:
             f.write(f'{self.name}: {self.score}\n')
+
+    def sorteia_poder(self):
+        if self.poder == 'nenhum':
+            if True:
+                tipo = 2
+                if tipo == 1:
+                    self.poder = 'inverte'
+                    self.cor_raquete = GREEN
+                elif tipo == 2:
+                    self.poder = 'reduz'
+                    self.altura_raquete = 40
+                    self.cor_raquete = RED
+                elif tipo == 3:
+                    self.poder = 'aumenta'
+                    self.altura_raquete = 100
+                    self.cor_raquete = BLUE
+        else:
+            if self.ultimo == 2:
+                self.poder = 'nenhum'
+                self.altura_raquete = 80
+                self.cor_raquete = WHITE
+            else:
+                self.ultimo += 1
 
 class Menu:
     def __init__(self, win, clock, font):
