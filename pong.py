@@ -57,11 +57,11 @@ class Game:
         self.bola_y += self.bola_dy
 
         # Colisão das raquetes com a bola
-        if (self.bola_dx < 0 and self.raquete1_y < self.bola_y < self.raquete1_y + ALTURA_RAQUETE and RAIO_BOLA < self.bola_x < RAIO_BOLA + LARGURA_RAQUETE):
+        if (self.bola_dx < 0 and self.raquete1_y < self.bola_y < self.raquete1_y + self.player1.altura_raquete and RAIO_BOLA < self.bola_x < RAIO_BOLA + self.player1.largura_raquete):
             self.player1.sorteia_poder()
             self.bola_dx *= -1
-        elif (self.bola_dx > 0 and self.raquete2_y < self.bola_y < self.raquete2_y + ALTURA_RAQUETE and LARGURA - RAIO_BOLA - LARGURA_RAQUETE < self.bola_x < LARGURA - RAIO_BOLA):
-            self.player1.sorteia_poder()
+        elif (self.bola_dx > 0 and self.raquete2_y < self.bola_y < self.raquete2_y + self.player2.altura_raquete and LARGURA - RAIO_BOLA - self.player2.largura_raquete < self.bola_x < LARGURA - RAIO_BOLA):
+            self.player2.sorteia_poder()
             self.bola_dx *= -1
 
         # Colisão da bola com a tela
@@ -78,8 +78,8 @@ class Game:
 
     def renderiza_jogo(self):
         self.win.fill((0, 0, 0))
-        pygame.draw.rect(self.win, WHITE, pygame.Rect(0, self.raquete1_y, LARGURA_RAQUETE, ALTURA_RAQUETE))
-        pygame.draw.rect(self.win, WHITE, pygame.Rect(LARGURA - LARGURA_RAQUETE, self.raquete2_y, LARGURA_RAQUETE, ALTURA_RAQUETE))
+        pygame.draw.rect(self.win, self.player1.cor_raquete, pygame.Rect(0, self.raquete1_y, self.player1.largura_raquete, self.player1.altura_raquete))
+        pygame.draw.rect(self.win, self.player2.cor_raquete, pygame.Rect(LARGURA - self.player2.largura_raquete, self.raquete2_y, self.player2.largura_raquete, self.player2.altura_raquete))
         pygame.draw.circle(self.win, WHITE, (self.bola_x, self.bola_y), RAIO_BOLA)
         score_text = self.font.render(f'{self.player1.score} - {self.player2.score}', True, WHITE)
         self.win.blit(score_text, (LARGURA // 2 - score_text.get_width() // 2, 30))
