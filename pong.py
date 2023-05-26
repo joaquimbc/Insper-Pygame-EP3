@@ -97,6 +97,7 @@ class Game:
         self.bola_y += self.bola_dy
 
         # Colisão das raquetes com a bola
+        # Colisão das raquetes com a bola
         if (self.bola_dx < 0 and self.raquete1_y < self.bola_y < self.raquete1_y + self.player1.altura_raquete and RAIO_BOLA < self.bola_x < RAIO_BOLA + self.player1.largura_raquete):
             self.player1.sorteia_poder()
             self.bola_dx *= -1
@@ -104,10 +105,10 @@ class Game:
             self.player2.sorteia_poder()
             self.bola_dx *= -1
         if self.tipo == 'quatro':
-            if (self.bola_dy < 0 and self.raquete3_x < self.bola_x < self.raquete3_x + self.player3.altura_raquete and RAIO_BOLA < self.bola_y < RAIO_BOLA + self.player3.altura_raquete):
+            if (self.bola_dy < 0 and self.raquete3_x < self.bola_x < self.raquete3_x + self.player3.altura_raquete and RAIO_BOLA < self.bola_y < RAIO_BOLA + self.player3.largura_raquete):
                 self.player3.sorteia_poder()
                 self.bola_dy *= -1
-            elif (self.bola_dy > 0 and self.raquete4_x < self.bola_x < self.raquete4_x + self.player4.altura_raquete and ALTURA - RAIO_BOLA - self.player4.altura_raquete < self.bola_y < ALTURA - RAIO_BOLA):
+            elif (self.bola_dy > 0 and self.raquete4_x < self.bola_x < self.raquete4_x + self.player4.altura_raquete and ALTURA - RAIO_BOLA - self.player4.largura_raquete < self.bola_y < ALTURA - RAIO_BOLA):
                 self.player4.sorteia_poder()
                 self.bola_dy *= -1
 
