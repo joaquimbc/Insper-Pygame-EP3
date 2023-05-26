@@ -14,7 +14,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
 class Game:
-    def __init__(self, win, clock, font):
+    def __init__(self, win, clock, font, tipo):
         self.win = win
         self.clock = clock
         self.font = font
@@ -23,8 +23,13 @@ class Game:
         self.score1, self.score2 = 0, 0
         self.bola_x, self.bola_y = LARGURA // 2, ALTURA // 2
         self.raquete1_y, self.raquete2_y = ALTURA // 2, ALTURA // 2
+        self.raquete3_x, self.raquete4_x = LARGURA // 2, LARGURA // 2
+        self.tipo = tipo
         self.player1 = Player("Player 1", 'vertical')
         self.player2 = Player("Player 2", 'vertical')
+        if self.tipo == 'quatro':
+            self.player3 = Player("Player 3", 'horizontal')
+            self.player4 = Player("Player 4", 'horizontal')
 
     def play(self):
         while True:
@@ -63,6 +68,17 @@ class Game:
             if keys[pygame.K_DOWN] and self.raquete2_y + self.raquete_velocidade < ALTURA - self.player2.altura_raquete:
                 self.raquete2_y += self.raquete_velocidade
 
+        if self.tipo == 'quatro':
+            if keys[pygame.K_a] and self.raquete3_x - self.raquete_velocidade > 0:
+                self.raquete3_x -= self.raquete_velocidade
+            if keys[pygame.K_d] and self.raquete3_x + self.raquete_velocidade < LARGURA - self.player3.altura_raquete:
+                self.raquete3_x += self.raquete_velocidade
+
+            if keys[pygame.K_j] and self.raquete4_x - self.raquete_velocidade > 0:
+                self.raquete4_x -= self.raquete_velocidade
+            if keys[pygame.K_l] and self.raquete4_x + self.raquete_velocidade < LARGURA - self.player4.altura_raquete:
+                self.raquete4_x += self.raquete_velocidade
+
     def movimenta_bola(self):
         # Movimento da bola
         self.bola_x += self.bola_dx
@@ -75,10 +91,18 @@ class Game:
         elif (self.bola_dx > 0 and self.raquete2_y < self.bola_y < self.raquete2_y + self.player2.altura_raquete and LARGURA - RAIO_BOLA - self.player2.largura_raquete < self.bola_x < LARGURA - RAIO_BOLA):
             self.player2.sorteia_poder()
             self.bola_dx *= -1
+        if self.tipo == 'quatro':
+            if (self.bola_dy < 0 and self.raquete3_x < self.bola_x < self.raquete3_x + self.player3.altura_raquete and RAIO_BOLA < self.bola_y < RAIO_BOLA + self.player3.altura_raquete):
+                self.player3.sorteia_poder()
+                self.bola_dy *= -1
+            elif (self.bola_dy > 0 and self.raquete4_x < self.bola_x < self.raquete4_x + self.player4.altura_raquete and ALTURA - RAIO_BOLA - self.player4.altura_raquete < self.bola_y < ALTURA - RAIO_BOLA):
+                self.player4.sorteia_poder()
+                self.bola_dy *= -1
 
         # Colisão da bola com a tela
-        if self.bola_y - RAIO_BOLA < 0 or self.bola_y + RAIO_BOLA > ALTURA:
-            self.bola_dy *= -1
+        if self.tipo == 'dois':
+            if self.bola_y - RAIO_BOLA < 0 or self.bola_y + RAIO_BOLA > ALTURA:
+                self.bola_dy *= -1
 
         # Pontuação
         if self.bola_x - RAIO_BOLA < 0:
@@ -92,8 +116,14 @@ class Game:
         self.win.fill((0, 0, 0))
         pygame.draw.rect(self.win, self.player1.cor_raquete, pygame.Rect(0, self.raquete1_y, self.player1.largura_raquete, self.player1.altura_raquete))
         pygame.draw.rect(self.win, self.player2.cor_raquete, pygame.Rect(LARGURA - self.player2.largura_raquete, self.raquete2_y, self.player2.largura_raquete, self.player2.altura_raquete))
+        if self.tipo == 'quatro':
+            pygame.draw.rect(self.win, self.player3.cor_raquete, pygame.Rect(self.raquete3_x, 0, self.player3.altura_raquete, self.player3.largura_raquete))
+            pygame.draw.rect(self.win, self.player4.cor_raquete, pygame.Rect(self.raquete4_x, ALTURA - self.player4.largura_raquete, self.player4.altura_raquete, self.player4.largura_raquete))
         pygame.draw.circle(self.win, WHITE, (self.bola_x, self.bola_y), RAIO_BOLA)
-        score_text = self.font.render(f'{self.player1.score} - {self.player2.score}', True, WHITE)
+        if self.tipo == 'quatro':
+            score_text = self.font.render(f'P1:{self.player1.score} - P2:{self.player2.score} - P3:{self.player3.score} - P4:{self.player4.score}', True, WHITE)
+        else:
+            score_text = self.font.render(f'{self.player1.score} - {self.player2.score}', True, WHITE)
         self.win.blit(score_text, (LARGURA // 2 - score_text.get_width() // 2, 30))
         pygame.display.flip()
 
@@ -138,6 +168,7 @@ class Player:
         self.cor_raquete = WHITE
         self.altura_raquete = 80
         self.largura_raquete = 15
+        self.tipo = tipo
         self.ultimo = 0
 
     def gravar_pontos(self):
@@ -185,8 +216,9 @@ class Menu:
                         game.play()
                     elif event.key == pygame.K_c: # Placar (Não implementado)
                         pass 
-                    elif event.key == pygame.K_m: # Multiplayer (Não implementado)
-                        pass 
+                    elif event.key == pygame.K_v: # Quatro jogadores
+                        game = Game(self.win, self.clock, self.font, 'quatro')
+                        game.play()
 
             self.win.fill((0, 0, 0))
             self.menu_principal()
@@ -194,7 +226,7 @@ class Menu:
             self.clock.tick(FPS)
     
     def menu_principal(self):
-        textos = ['Pong!!!', 'Aperte G para jogar', 'Aperte C para o placar', 'Aperte M para multiplayer']
+        textos = ['Pong!!!', 'Aperte G para jogar', 'Aperte C para o placar', 'Aperte V Para quatro jogadores']
         for i, txt in enumerate(textos):
             text = self.font.render(txt, True, WHITE)
             self.win.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2 + i * TAMANHO_FONTE))
