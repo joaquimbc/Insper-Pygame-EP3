@@ -206,22 +206,29 @@ class Player:
     def sorteia_poder(self):
         if self.poder == 'nenhum':
             if True:
-                tipo = 1
-                if tipo == 1:
+                tipo = 3
+                if tipo == 2:
                     self.poder = 'inverte'
                     self.cor_raquete = GREEN
                 elif tipo == 2:
                     self.poder = 'reduz'
-                    self.altura_raquete = 40
+                    if self.tipo == 'vertical':
+                        self.altura_raquete = 40
+                    elif self.tipo == 'horizontal':
+                        self.altura_raquete = 30
                     self.cor_raquete = RED
                 elif tipo == 3:
                     self.poder = 'aumenta'
-                    self.altura_raquete = 100
+                    if self.tipo == 'vertical':
+                        self.altura_raquete = 100
+                    elif self.tipo == 'horizontal':
+                        self.altura_raquete = 150
                     self.cor_raquete = BLUE
         else:
             if self.ultimo == 2:
                 self.poder = 'nenhum'
                 self.altura_raquete = 80
+                self.largura_raquete = 15
                 self.cor_raquete = WHITE
             else:
                 self.ultimo += 1
