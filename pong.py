@@ -24,6 +24,9 @@ class Game:
         self.bola_x, self.bola_y = LARGURA // 2, ALTURA // 2
         self.raquete1_y, self.raquete2_y = ALTURA // 2, ALTURA // 2
         self.raquete3_x, self.raquete4_x = LARGURA // 2, LARGURA // 2
+        self.som_colisao = pygame.mixer.Sound('colisao.mp3')
+        self.musica = pygame.mixer.Sound('musica_jogo.mp3')
+        self.musica.play()
         self.tipo = tipo
         self.player1 = Player("Player 1", 'vertical')
         self.player2 = Player("Player 2", 'vertical')
@@ -100,21 +103,26 @@ class Game:
         # Colisão das raquetes com a bola
         if (self.bola_dx < 0 and self.raquete1_y < self.bola_y < self.raquete1_y + self.player1.altura_raquete and RAIO_BOLA < self.bola_x < RAIO_BOLA + self.player1.largura_raquete):
             self.player1.sorteia_poder()
+            self.som_colisao.play()
             self.bola_dx *= -1
         elif (self.bola_dx > 0 and self.raquete2_y < self.bola_y < self.raquete2_y + self.player2.altura_raquete and LARGURA - RAIO_BOLA - self.player2.largura_raquete < self.bola_x < LARGURA - RAIO_BOLA):
             self.player2.sorteia_poder()
+            self.som_colisao.play()
             self.bola_dx *= -1
         if self.tipo == 'quatro':
             if (self.bola_dy < 0 and self.raquete3_x < self.bola_x < self.raquete3_x + self.player3.altura_raquete and RAIO_BOLA < self.bola_y < RAIO_BOLA + self.player3.largura_raquete):
                 self.player3.sorteia_poder()
+                self.som_colisao.play()
                 self.bola_dy *= -1
             elif (self.bola_dy > 0 and self.raquete4_x < self.bola_x < self.raquete4_x + self.player4.altura_raquete and ALTURA - RAIO_BOLA - self.player4.largura_raquete < self.bola_y < ALTURA - RAIO_BOLA):
                 self.player4.sorteia_poder()
+                self.som_colisao.play()
                 self.bola_dy *= -1
 
         # Colisão da bola com a tela
         if self.tipo == 'dois':
             if self.bola_y - RAIO_BOLA < 0 or self.bola_y + RAIO_BOLA > ALTURA:
+                self.som_colisao.play()
                 self.bola_dy *= -1
 
         # Pontuação
@@ -221,6 +229,7 @@ class Player:
 class Menu:
     def __init__(self, win, clock, font):
         self.win = win
+        pygame.mixer.init()
         self.clock = clock
         self.font = font
 
@@ -232,7 +241,7 @@ class Menu:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_g: # Modo principal do jogo
-                        game = Game(self.win, self.clock, self.font)
+                        game = Game(self.win, self.clock, self.font, 'dois')
                         game.play()
                     elif event.key == pygame.K_c: # Placar (Não implementado)
                         pass 
