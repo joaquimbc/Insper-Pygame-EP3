@@ -29,6 +29,7 @@ class Game:
         self.musica = pygame.mixer.Sound('musica_jogo.mp3')
         self.musica.play()
         self.tipo = tipo
+        self.ultima_pontuacao = {} 
         self.player1 = Player(digita_nome(1), 'vertical')
         self.player2 = Player(digita_nome(2), 'vertical')
         if self.tipo == 'quatro':
@@ -157,10 +158,16 @@ class Game:
         pygame.display.flip()
 
     def reseta_bola(self, player, score1, score2):
-        if player == 1 and score1 % 5 == 0:
-            self.tela_de_vitoria(self.player1)
-        elif player == 2 and score2 % 5 == 0:
-            self.tela_de_vitoria(self.player2)
+        if self.tipo == 'dois':
+            for player in [self.player1, self.player2]:
+                if player.score % 5 == 0 and self.ultima_pontuacao.get(player, 0) != player.score:
+                    self.tela_de_vitoria(player)
+                    self.ultima_pontuacao[player] = player.score
+        else:
+            for player in [self.player1, self.player2, self.player3, self.player4]:
+                if player.score % 5 == 0 and self.ultima_pontuacao.get(player, 0) != player.score:
+                    self.tela_de_vitoria(player)
+                    self.ultima_pontuacao[player] = player.score
         
         self.bola_x, self.bola_y = LARGURA // 2, ALTURA // 2
 
