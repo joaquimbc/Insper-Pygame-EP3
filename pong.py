@@ -258,8 +258,8 @@ class Menu:
                     if event.key == pygame.K_g: # Modo principal do jogo
                         game = Game(self.win, self.clock, self.font, 'dois')
                         game.play()
-                    elif event.key == pygame.K_c: # Placar (Não implementado)
-                        pass 
+                    elif event.key == pygame.K_c: # Placar 
+                        self.placar()
                     elif event.key == pygame.K_v: # Quatro jogadores
                         game = Game(self.win, self.clock, self.font, 'quatro')
                         game.play()
@@ -274,6 +274,90 @@ class Menu:
         for i, txt in enumerate(textos):
             text = self.font.render(txt, True, WHITE)
             self.win.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2 + i * TAMANHO_FONTE))
+
+    def placar(self):
+
+        # Fontes para o placar
+        score_font = pygame.font.Font(None, 50)
+        text_font = pygame.font.Font(None, 24)
+
+        # Tenta ler as pontuações do arquivo scores.txt
+        pontuacoes = self.carrega_pontos()
+
+        # Se as pontuações não foram lidas, mostre uma mensagem e retorne
+        if not pontuacoes:
+            self.mostra_sem_pontos()
+            return
+
+        # Mostra o placar
+        self.mostra_pontos(pontuacoes, score_font, text_font)
+
+
+    def carrega_pontos(self):
+        pontuacoes = []
+        try:
+            with open('scores.txt', 'r') as file:
+                for line in file:
+                    player, pontos = line.strip().split(': ')
+                    pontuacoes.append((player, int(pontos)))
+            pontuacoes.sort(key=lambda x: x[1], reverse=True)
+        except:
+            pontuacoes = None
+        return pontuacoes
+
+
+    def mostra_sem_pontos(self):
+        while True:
+            if self.quit():
+                return
+
+            self.win.fill((0,0,0))
+            texto_titulo = self.font.render("Você ainda não possui pontos!", True, RED)
+            titulo_rect = texto_titulo.get_rect(center=(LARGURA// 2, 60))
+            self.win.blit(texto_titulo, titulo_rect)
+            pygame.display.flip()
+
+
+    def quit(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    return True
+        return False
+
+
+    def mostra_pontos(self, pontuacoes, score_font, text_font):
+        while True:
+            if self.quit():
+                return
+
+            self.win.fill((0,0,0))
+
+            # Renderiza o título do placar
+            texto_titulo = self.font.render("Placar", True, RED)
+            titulo_rect = texto_titulo.get_rect(center=(LARGURA// 2, 60))
+            self.win.blit(texto_titulo, titulo_rect)
+
+            # Mostra a pontuação
+            self.renderiza_pontos(pontuacoes, score_font)
+
+            text = text_font.render("Pressione C para voltar ao menu principal", True, WHITE)
+            text_rect = text.get_rect(center=(LARGURA // 2, ALTURA - 30))
+            self.win.blit(text, text_rect)
+
+            pygame.display.flip()
+
+
+    def renderiza_pontos(self, pontuacoes, score_font):
+        y = 120
+        for i, (player, pontos) in enumerate(pontuacoes):
+            texto_jogador = score_font.render(f"{player}: {pontos}", True, WHITE)
+            rect_jogador = texto_jogador.get_rect(center=(LARGURA // 2, y + i * 40))
+            self.win.blit(texto_jogador, rect_jogador)
+
 
 def main():
     pygame.init()
