@@ -296,6 +296,12 @@ class TextInputVisualizer:
             self._surface.fill(self._cursor_color, cursor_rect)
 
 def digita_nome(num_jogador):
+    """
+    A minha implementação de uma input box utilizando a biblioteca pygame-text-input
+    Honestamente, eu não fazia a menor idea de que fazer algo como um simples input poderia ser tão absurdo de dífícil, por isso a utilização da biblioteca
+    Eu sinceramente não achei outra forma que eu conseguisse fazer isso de forma prática ou compatível com as minhas habilidades... :/
+    Mas pelo menos funciona lindamente! :D E não foi uma solução inteiramente plug-n-play, considerando que ainda tive que escrever por cima disso
+    """
 
     # Define constants
     LARGURA, ALTURA = 800, 600
