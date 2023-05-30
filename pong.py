@@ -1,6 +1,7 @@
 import sys
 import pygame
 from random import randint
+from pygame_textinput import digita_nome # Código pego de https://github.com/Nearoo/pygame-text-input
 
 # Constantes do jogo
 LARGURA, ALTURA = 800, 600
@@ -28,11 +29,11 @@ class Game:
         self.musica = pygame.mixer.Sound('musica_jogo.mp3')
         self.musica.play()
         self.tipo = tipo
-        self.player1 = Player("Player 1", 'vertical')
-        self.player2 = Player("Player 2", 'vertical')
+        self.player1 = Player(digita_nome(1), 'vertical')
+        self.player2 = Player(digita_nome(2), 'vertical')
         if self.tipo == 'quatro':
-            self.player3 = Player("Player 3", 'horizontal')
-            self.player4 = Player("Player 4", 'horizontal')
+            self.player3 = Player(digita_nome(3), 'horizontal')
+            self.player4 = Player(digita_nome(4), 'horizontal')
 
     def play(self):
         while True:
