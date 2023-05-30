@@ -130,17 +130,17 @@ class Game:
         # Pontuação
         if self.bola_x - RAIO_BOLA < 0:
             self.player2.score += 1
-            self.reseta_bola(2, self.player1.score, self.player2.score)
+            self.reseta_bola(2)
         if self.bola_x + RAIO_BOLA > LARGURA:
             self.player1.score += 1
-            self.reseta_bola(1, self.player1.score, self.player2.score)
+            self.reseta_bola(1)
         if self.tipo == 'quatro':	
             if self.bola_y - RAIO_BOLA < 0:	
                 self.player4.score += 1	
-                self.reseta_bola(4, self.player3.score, self.player4.score)	
+                self.reseta_bola(4)	
             if self.bola_y + RAIO_BOLA > ALTURA:	
                 self.player3.score += 1	
-                self.reseta_bola(3, self.player3.score, self.player4.score)
+                self.reseta_bola(3)
 
     def renderiza_jogo(self):
         self.win.fill((0, 0, 0))
@@ -157,7 +157,7 @@ class Game:
         self.win.blit(score_text, (LARGURA // 2 - score_text.get_width() // 2, 30))
         pygame.display.flip()
 
-    def reseta_bola(self, player, score1, score2):
+    def reseta_bola(self, player):
         if self.tipo == 'dois':
             for player in [self.player1, self.player2]:
                 if player.score % 5 == 0 and self.ultima_pontuacao.get(player, 0) != player.score:
