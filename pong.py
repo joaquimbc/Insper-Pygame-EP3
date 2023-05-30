@@ -151,9 +151,9 @@ class Game:
             pygame.draw.rect(self.win, self.player4.cor_raquete, pygame.Rect(self.raquete4_x, ALTURA - self.player4.largura_raquete, self.player4.altura_raquete, self.player4.largura_raquete))
         pygame.draw.circle(self.win, WHITE, (self.bola_x, self.bola_y), RAIO_BOLA)
         if self.tipo == 'quatro':
-            score_text = self.font.render(f'P1:{self.player1.score} - P2:{self.player2.score} - P3:{self.player3.score} - P4:{self.player4.score}', True, WHITE)
+            score_text = self.font.render(f'{self.player1.name}: {self.player1.score} -{self.player2.name}: {self.player2.score} - {self.player3.name}: {self.player3.score} - {self.player4.name}: {self.player4.score}', True, WHITE)
         else:
-            score_text = self.font.render(f'{self.player1.score} - {self.player2.score}', True, WHITE)
+            score_text = self.font.render(f'{self.player1.name}: {self.player1.score} - {self.player2.name}: {self.player2.score}', True, WHITE)
         self.win.blit(score_text, (LARGURA // 2 - score_text.get_width() // 2, 30))
         pygame.display.flip()
 
